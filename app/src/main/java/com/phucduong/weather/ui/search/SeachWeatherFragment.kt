@@ -1,33 +1,43 @@
 package com.phucduong.weather.ui.main.search
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.phucduong.weather.R
-import com.phucduong.weather.viewmodel.SearchWeatherViewModel
+import androidx.fragment.app.Fragment
+import com.phucduong.weather.adapter.WeatherAdapter
+import com.phucduong.weather.databinding.SearchFragmentBinding
+import com.phucduong.weather.ui.search.SearchWeatherActivity
 
 class SeachWeatherFragment : Fragment() {
+    private lateinit var viewBinding: SearchFragmentBinding
 
     companion object {
         fun newInstance() = SeachWeatherFragment()
     }
 
-    private lateinit var viewModel: SearchWeatherViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        viewBinding = SearchFragmentBinding.inflate(inflater, container, false).apply {
+            viewModel = (activity as SearchWeatherActivity).obtainViewModel()
+        }
+        return viewBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SearchWeatherViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewBinding.lifecycleOwner = this.viewLifecycleOwner
+        setupListAdapter()
+    }
+
+    private fun setupListAdapter() {
+        val viewModel = viewBinding.viewModel
+        viewModel.let {
+            val weatherAdapter = WeatherAdapter(ArrayList(0))
+            viewBinding.weatherListInfo.adapter = weatherAdapter
+        }
     }
 
 }

@@ -21,11 +21,10 @@ class ViewModelFactory private constructor(
 
     companion object {
         @Volatile private var INSTANCE: ViewModelFactory? = null
-        fun getInstance(application: Application) {
+        fun getInstance(application: Application) =
             INSTANCE ?: synchronized(ViewModelFactory::class.java) {
                 INSTANCE ?: ViewModelFactory(Injector.provideWeatherRepository(application.applicationContext))
                     .also { INSTANCE = it }
             }
-        }
     }
 }
