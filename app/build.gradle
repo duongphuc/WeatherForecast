@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "kotlin.phucduong.weather"
+        applicationId "com.phucduong.weather"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

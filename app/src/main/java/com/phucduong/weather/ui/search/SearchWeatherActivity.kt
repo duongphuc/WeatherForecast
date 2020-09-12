@@ -1,17 +1,18 @@
-package kotlin.phucduong.weather
+package com.phucduong.weather.ui.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlin.phucduong.weather.ui.main.MainFragment
+import com.phucduong.weather.R
+import com.phucduong.weather.ui.main.search.SeachWeatherFragment
 
-class MainActivity : AppCompatActivity() {
+class SearchWeatherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, SeachWeatherFragment.newInstance())
                 .commitNow()
         }
     }

@@ -1,4 +1,4 @@
-package kotlin.phucduong.weather
+package com.phucduong.weather
 
 import org.junit.Test
 
