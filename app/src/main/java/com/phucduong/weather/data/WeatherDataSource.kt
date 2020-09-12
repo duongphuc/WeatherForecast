@@ -1,13 +1,9 @@
 package com.phucduong.weather.data
 
 interface WeatherDataSource {
-    interface LoadWeatherCallBack {
-        fun onDataLoaded(listWeather: List<Weather>)
-        fun onDataNotAvailable()
-    }
-    fun getWeatherListByKeyword(keyword: String, callback: LoadWeatherCallBack)
+    suspend fun getWeatherListByKeyword(keyword: String) : Result<List<Weather>>
 }
 
 interface LocalWeatherDataSource : WeatherDataSource {
-    fun saveWeatherList(listWeather: List<Weather>)
+    suspend fun saveWeatherList(listWeather: List<Weather>)
 }

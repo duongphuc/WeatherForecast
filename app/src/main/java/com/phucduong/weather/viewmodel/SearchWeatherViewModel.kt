@@ -3,9 +3,11 @@ package com.phucduong.weather.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
-import com.phucduong.weather.data.WeatherDataSource
 import com.phucduong.weather.data.WeatherRepository
+import kotlinx.coroutines.launch
 
 class SearchWeatherViewModel(
     private val weatherRepository: WeatherRepository
@@ -17,14 +19,13 @@ class SearchWeatherViewModel(
         get() = _listWeatherInfo
 
     fun getWeather() {
-        weatherRepository.getWeatherListByKeyword(searchKeyWord.value?:"", object : WeatherDataSource.LoadWeatherCallBack {
-            override fun onDataLoaded(listWeather: List<Weather>) {
-                _listWeatherInfo.value = listWeather
+        viewModelScope.launch {
+            val result = weatherRepository.getWeatherListByKeyword(searchKeyWord.value?:"")
+            if (result is Result.Success) {
+                _listWeatherInfo.value = result.data
+            } else {
+                _listWeatherInfo.value = emptyList()
             }
-
-            override fun onDataNotAvailable() {
-
-            }
-        })
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.phucduong.weather.ui.search
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.phucduong.weather.R
 import com.phucduong.weather.ui.main.search.SeachWeatherFragment
 import com.phucduong.weather.util.obtainViewModel

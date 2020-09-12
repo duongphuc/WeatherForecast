@@ -1,57 +1,44 @@
 package com.phucduong.weather.data
 
-import com.phucduong.weather.data.local.WeatherLocalDataSource
-
 class WeatherRepository constructor(
-    val localDataSource: WeatherLocalDataSource,
-    val remoteDataSource: WeatherDataSource
+    private val localDataSource: LocalWeatherDataSource,
+    private val remoteDataSource: WeatherDataSource
 ) {
     var cached: LinkedHashMap<String, List<Weather>> = LinkedHashMap()
     var refreshCached = false
-    fun getWeatherListByKeyword(keyword: String, callback: WeatherDataSource.LoadWeatherCallBack) {
+
+    suspend fun getWeatherListByKeyword(keyword: String) : Result<List<Weather>> {
         if (cached.isNotEmpty() && !refreshCached) {
             val listWeather = cached[keyword]
             if (!listWeather.isNullOrEmpty()) {
-                callback.onDataLoaded(listWeather)
-                return
+                return Result.Success(listWeather)
             }
         }
 
         if (!refreshCached) {
-            localDataSource.getWeatherListByKeyword(keyword, object: WeatherDataSource.LoadWeatherCallBack {
-                override fun onDataLoaded(listWeather: List<Weather>) {
-                    callback.onDataLoaded(listWeather)
-                }
-
-                override fun onDataNotAvailable() {
-                    getWeatherListFromRemote(keyword, callback)
-                }
-            })
-        } else {
-            getWeatherListFromRemote(keyword, callback)
+            val result = localDataSource.getWeatherListByKeyword(keyword)
+            if (result is Result.Success) {
+                putDataToCached(keyword, result.data)
+                return result
+            }
         }
+        return getWeatherListFromRemote(keyword)
     }
 
-    fun getWeatherListFromRemote(keyword: String, callback: WeatherDataSource.LoadWeatherCallBack) {
-        remoteDataSource.getWeatherListByKeyword(keyword, object: WeatherDataSource.LoadWeatherCallBack {
-            override fun onDataLoaded(listWeather: List<Weather>) {
-                putDataToCached(keyword, listWeather)
-                putDataToLocal(listWeather)
-                callback.onDataLoaded(listWeather)
-            }
-
-            override fun onDataNotAvailable() {
-                callback.onDataNotAvailable()
-            }
-
-        })
+    private suspend fun getWeatherListFromRemote(keyword: String): Result<List<Weather>> {
+        val result = remoteDataSource.getWeatherListByKeyword(keyword)
+        if (result is Result.Success) {
+            putDataToCached(keyword, result.data)
+            putDataToLocal(result.data)
+        }
+        return result
     }
 
-    fun putDataToCached(keyword: String, listWeather: List<Weather>) {
-        cached.put(keyword, listWeather)
+    private fun putDataToCached(keyword: String, listWeather: List<Weather>) {
+        cached[keyword] = listWeather
     }
 
-    fun putDataToLocal(listWeather: List<Weather>) {
+    private suspend fun putDataToLocal(listWeather: List<Weather>) {
         localDataSource.saveWeatherList(listWeather)
     }
 }

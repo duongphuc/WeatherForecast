@@ -1,30 +1,25 @@
 package com.phucduong.weather.data.local
 
 import com.phucduong.weather.data.LocalWeatherDataSource
+import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
-import com.phucduong.weather.data.WeatherDataSource
-import com.phucduong.weather.util.AppExecutors
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class WeatherLocalDataSource(
-    val executor: AppExecutors,
-    val weatherDao: WeatherDao
+    private val weatherDao: WeatherDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocalWeatherDataSource {
-    override fun saveWeatherList(listWeather: List<Weather>) {
-        executor.diskIO.execute {
-            weatherDao.insertWeather(listWeather)
-        }
+    override suspend fun saveWeatherList(listWeather: List<Weather>) = withContext(ioDispatcher) {
+        weatherDao.insertWeather(listWeather)
     }
 
-    override fun getWeatherListByKeyword(keyword: String, callback: WeatherDataSource.LoadWeatherCallBack) {
-        executor.diskIO.execute {
-            val listWeather = weatherDao.getWeatherByKeyWord(keyword)
-            executor.mainThread.execute {
-                if (listWeather.isEmpty()) {
-                    callback.onDataNotAvailable()
-                } else {
-                    callback.onDataLoaded(listWeather)
-                }
-            }
+    override suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>> = withContext(ioDispatcher) {
+        return@withContext try {
+            Result.Success(weatherDao.getWeatherByKeyWord(keyword))
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 }
