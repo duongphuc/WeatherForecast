@@ -2,7 +2,6 @@ package com.phucduong.weather.data
 
 import android.content.SharedPreferences
 import android.text.format.DateUtils
-import androidx.annotation.VisibleForTesting
 
 class DefaultWeatherRepository constructor(
     private val localDataSource: LocalWeatherDataSource,

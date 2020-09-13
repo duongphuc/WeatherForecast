@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
-import com.phucduong.weather.data.DefaultWeatherRepository
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
 import java.util.*

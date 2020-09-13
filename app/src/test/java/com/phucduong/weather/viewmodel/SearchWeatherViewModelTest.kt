@@ -32,7 +32,6 @@ class SearchWeatherViewModelTest {
 
     @Before
     fun setupViewModel() {
-        // We initialise the tasks to 3, with one active and two completed
         repository = FakeWeatherRepository()
         val info1 = Weather("Sai Gon", "Datetime1", 10, 10, 10, "Description1", "saigon")
         val info2 = Weather("Sai Gon", "Datetime2", 10, 10, 10, "Description2", "saigon")
