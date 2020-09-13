@@ -23,7 +23,7 @@ class SearchWeatherViewModel(
     val listWeather: LiveData<List<Weather>>
         get() = _listWeatherInfo
 
-    fun getWeather() {
+    fun getWeatherWithCurrentKeyword() {
         loading.value = true
         viewModelScope.launch {
             val result = weatherRepository.getWeatherListByKeyword(
