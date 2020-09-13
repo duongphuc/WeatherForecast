@@ -2,6 +2,7 @@ package com.phucduong.weather
 
 import android.content.Context
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.phucduong.weather.data.DefaultWeatherRepository
 import com.phucduong.weather.data.WeatherRepository
 import com.phucduong.weather.data.local.WeatherDatabase
 import com.phucduong.weather.data.local.WeatherLocalDataSource
@@ -16,7 +17,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object Injector {
     fun provideWeatherRepository(context: Context): WeatherRepository {
         val db = WeatherDatabase.getInstance(context);
-        return WeatherRepository(
+        return DefaultWeatherRepository(
             WeatherLocalDataSource(db.weatherDao()),
             WeatherRemoteDataSource(apiServices),
             context.getSharedPreferences(Constant.PREFERENCES, Context.MODE_PRIVATE)

@@ -21,7 +21,7 @@ object BindingUtils {
     @JvmStatic
     @BindingAdapter("onEditorEnterAction")
     fun EditText.onEditorEnterAction(performSearch: () -> Unit) {
-        setOnEditorActionListener { _, actionId, event ->
+        setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 performSearch()
             }

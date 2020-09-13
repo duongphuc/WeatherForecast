@@ -3,6 +3,7 @@ package com.phucduong.weather
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.phucduong.weather.data.DefaultWeatherRepository
 import com.phucduong.weather.data.WeatherRepository
 import com.phucduong.weather.viewmodel.SearchWeatherViewModel
 

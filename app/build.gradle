@@ -22,8 +22,44 @@ android {
         }
     }
 
+    flavorDimensions "default"
+    productFlavors {
+        mock {
+            dimension "default"
+            applicationIdSuffix = ".mock"
+        }
+        prod {
+            dimension "default"
+        }
+    }
+
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
+        }
+    }
+
     dataBinding {
         enabled = true
+        enabledForTests = true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    sourceSets {
+        mock {
+            java {
+                srcDirs 'src/mock/java', 'src/mock/java/'
+            }
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -36,6 +72,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    //Test
+    implementation "androidx.fragment:fragment-testing:1.2.0"
+    implementation "androidx.test:core:1.3.0"
+    implementation "androidx.fragment:fragment:1.2.0"
 
     // Architecture Components
     implementation "androidx.room:room-runtime:2.2.5"
