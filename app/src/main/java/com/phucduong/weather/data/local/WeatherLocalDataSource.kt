@@ -15,11 +15,17 @@ class WeatherLocalDataSource(
         weatherDao.insertWeather(listWeather)
     }
 
-    override suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>> = withContext(ioDispatcher) {
-        return@withContext try {
-            Result.Success(weatherDao.getWeatherByKeyWord(keyword))
-        } catch (e: Exception) {
-            Result.Error(e)
+    override suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val listWeather = weatherDao.getWeatherByKeyWord(keyword)
+                if (listWeather.isNullOrEmpty()) {
+                    Result.Error(Exception("Data not found"))
+                } else {
+                    Result.Success(weatherDao.getWeatherByKeyWord(keyword))
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
         }
-    }
 }

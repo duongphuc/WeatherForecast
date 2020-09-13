@@ -10,7 +10,7 @@ data class City(
 )
 
 data class WeatherInfo(
-    val dt: Int,
+    val dt: Long,
     val humidity: Int,
     val pressure: Int,
     val temp: Temp,

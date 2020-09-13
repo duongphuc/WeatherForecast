@@ -13,18 +13,22 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(SearchWeatherViewModel::class.java) -> SearchWeatherViewModel(weatherRepository)
+                isAssignableFrom(SearchWeatherViewModel::class.java) -> SearchWeatherViewModel(
+                    weatherRepository
+                )
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T
 
     companion object {
-        @Volatile private var INSTANCE: ViewModelFactory? = null
+        @Volatile
+        private var INSTANCE: ViewModelFactory? = null
         fun getInstance(application: Application) =
             INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory(Injector.provideWeatherRepository(application.applicationContext))
-                    .also { INSTANCE = it }
+                INSTANCE
+                    ?: ViewModelFactory(Injector.provideWeatherRepository(application.applicationContext))
+                        .also { INSTANCE = it }
             }
     }
 }

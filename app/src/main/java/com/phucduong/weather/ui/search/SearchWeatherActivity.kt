@@ -15,6 +15,7 @@ class SearchWeatherActivity : AppCompatActivity() {
         replaceFragment(SeachWeatherFragment.newInstance(), R.id.container)
     }
 
-    fun obtainViewModel(): SearchWeatherViewModel = obtainViewModel(SearchWeatherViewModel::class.java)
+    fun obtainViewModel(): SearchWeatherViewModel =
+        obtainViewModel(SearchWeatherViewModel::class.java)
 
 }

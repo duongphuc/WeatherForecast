@@ -8,10 +8,11 @@ import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
+import java.util.*
 
 class SearchWeatherViewModel(
     private val weatherRepository: WeatherRepository
-): ViewModel() {
+) : ViewModel() {
     // Two-way databinding, exposing MutableLiveData
     val searchKeyWord = MutableLiveData<String>()
     private val _listWeatherInfo = MutableLiveData<List<Weather>>().apply { value = emptyList() }
@@ -20,7 +21,11 @@ class SearchWeatherViewModel(
 
     fun getWeather() {
         viewModelScope.launch {
-            val result = weatherRepository.getWeatherListByKeyword(searchKeyWord.value?:"")
+            val result = weatherRepository.getWeatherListByKeyword(
+                searchKeyWord.value?.toLowerCase(
+                    Locale.getDefault()
+                ) ?: ""
+            )
             if (result is Result.Success) {
                 _listWeatherInfo.value = result.data
             } else {

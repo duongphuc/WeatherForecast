@@ -7,7 +7,7 @@ class WeatherRepository constructor(
     var cached: LinkedHashMap<String, List<Weather>> = LinkedHashMap()
     var refreshCached = false
 
-    suspend fun getWeatherListByKeyword(keyword: String) : Result<List<Weather>> {
+    suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>> {
         if (cached.isNotEmpty() && !refreshCached) {
             val listWeather = cached[keyword]
             if (!listWeather.isNullOrEmpty()) {

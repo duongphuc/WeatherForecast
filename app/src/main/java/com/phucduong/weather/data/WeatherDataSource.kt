@@ -1,7 +1,7 @@
 package com.phucduong.weather.data
 
 interface WeatherDataSource {
-    suspend fun getWeatherListByKeyword(keyword: String) : Result<List<Weather>>
+    suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>>
 }
 
 interface LocalWeatherDataSource : WeatherDataSource {
