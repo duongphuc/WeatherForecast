@@ -8,6 +8,7 @@ import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
+import java.lang.Error
 import java.util.*
 
 class SearchWeatherViewModel(
@@ -15,22 +16,35 @@ class SearchWeatherViewModel(
 ) : ViewModel() {
     // Two-way databinding, exposing MutableLiveData
     val searchKeyWord = MutableLiveData<String>()
+    val loading = MutableLiveData<Boolean>()
+    val errorText = MutableLiveData<String>()
+
     private val _listWeatherInfo = MutableLiveData<List<Weather>>().apply { value = emptyList() }
     val listWeather: LiveData<List<Weather>>
         get() = _listWeatherInfo
 
     fun getWeather() {
+        loading.value = true
         viewModelScope.launch {
             val result = weatherRepository.getWeatherListByKeyword(
-                searchKeyWord.value?.toLowerCase(
+                searchKeyWord.value?.trim()?.toLowerCase(
                     Locale.getDefault()
                 ) ?: ""
             )
-            if (result is Result.Success) {
-                _listWeatherInfo.value = result.data
-            } else {
-                _listWeatherInfo.value = emptyList()
+            loading.value = false
+            when (result) {
+                is Result.Success -> {
+                    bindData(result.data, "")
+                }
+                is Result.Error -> {
+                    bindData(emptyList(), result.exception.message)
+                }
             }
         }
+    }
+
+    private fun bindData(weartherList: List<Weather>, errorMsg: String?) {
+        _listWeatherInfo.value = weartherList
+        errorText.value = errorMsg
     }
 }
