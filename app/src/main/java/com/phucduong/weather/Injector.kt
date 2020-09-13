@@ -18,13 +18,14 @@ object Injector {
         val db = WeatherDatabase.getInstance(context);
         return WeatherRepository(
             WeatherLocalDataSource(db.weatherDao()),
-            WeatherRemoteDataSource(apiServices)
+            WeatherRemoteDataSource(apiServices),
+            context.getSharedPreferences(Constant.PREFERENCES, Context.MODE_PRIVATE)
         )
     }
 
     private val authInterceptor = Interceptor { chain ->
         val newUrl =
-            chain.request().url().newBuilder().addQueryParameter("appId", BuildConfig.API_APP_ID)
+            chain.request().url().newBuilder().addQueryParameter("appId", Constant.WEATHER_APP_ID)
                 .build()
         val newRequest = chain.request().newBuilder().url(newUrl).build()
         chain.proceed(newRequest)

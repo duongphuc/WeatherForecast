@@ -22,6 +22,7 @@ abstract class WeatherDatabase : RoomDatabase() {
                         context.applicationContext,
                         WeatherDatabase::class.java, "Weather.db"
                     )
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
                 return INSTANCE!!

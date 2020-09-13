@@ -8,7 +8,6 @@ import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
-import java.lang.Error
 import java.util.*
 
 class SearchWeatherViewModel(
@@ -33,18 +32,22 @@ class SearchWeatherViewModel(
             )
             loading.value = false
             when (result) {
-                is Result.Success -> {
-                    bindData(result.data, "")
-                }
-                is Result.Error -> {
-                    bindData(emptyList(), result.exception.message)
-                }
+                is Result.Success -> bindData(result.data, "")
+                is Result.Error -> bindData(emptyList(), result.errorResponse?.message)
+                is Result.NetWorkError -> bindData(emptyList(), result.msg)
+                is Result.UnKnowError -> bindData(emptyList(), result.msg)
             }
         }
     }
 
-    private fun bindData(weartherList: List<Weather>, errorMsg: String?) {
-        _listWeatherInfo.value = weartherList
+    private fun bindData(weatherList: List<Weather>, errorMsg: String?) {
+        _listWeatherInfo.value = weatherList
         errorText.value = errorMsg
+    }
+
+    fun checkRefreshCached() {
+        viewModelScope.launch {
+            weatherRepository.checkRefreshCached()
+        }
     }
 }

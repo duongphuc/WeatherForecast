@@ -16,15 +16,17 @@
 
 package com.phucduong.weather.data
 
+import com.phucduong.weather.data.remote.model.ErrorResponse
+import java.io.IOException
+
 sealed class Result<out R> {
-
     data class Success<out T>(val data: T) : Result<T>()
-    data class Error(val exception: Exception) : Result<Nothing>()
-    object NetWorkError: Result<Nothing>()
-}
+    data class Error(val errorResponse: ErrorResponse?) : Result<Nothing>()
+    data class NetWorkError(val exception: IOException, val msg: String = "Network Error") :
+        Result<Nothing>()
 
-/**
- * `true` if [Result] is of type [Success] & holds non-null [Success.data].
- */
-val Result<*>.succeeded
-    get() = this is Result.Success && data != null
+    data class UnKnowError(
+        val throwable: Throwable,
+        val msg: String = "Something when wrong, please try again later"
+    ) : Result<Nothing>()
+}

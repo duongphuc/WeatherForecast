@@ -17,6 +17,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View.OnClickListener" />
 
         <variable
@@ -34,47 +35,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:text="@{String.format(@string/date, info.datetime)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{String.format(@string/date, info.datetime)}" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/date"
-            app:layout_constraintStart_toStartOf="@id/date"
-            app:layout_constraintEnd_toEndOf="@id/date"
             android:id="@+id/average_temp"
-            android:text="@{String.format(@string/ave_temp, info.averageTemp)}"/>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/average_temp"
-            app:layout_constraintStart_toStartOf="@id/average_temp"
-            app:layout_constraintEnd_toEndOf="@id/average_temp"
+            android:text="@{String.format(@string/ave_temp, info.averageTemp)}"
+            app:layout_constraintEnd_toEndOf="@id/date"
+            app:layout_constraintStart_toStartOf="@id/date"
+            app:layout_constraintTop_toBottomOf="@id/date" />
+
+        <TextView
             android:id="@+id/pressure"
-            android:text="@{String.format(@string/pressure, info.averageTemp)}"/>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/pressure"
-            app:layout_constraintStart_toStartOf="@id/pressure"
-            app:layout_constraintEnd_toEndOf="@id/pressure"
+            android:text="@{String.format(@string/pressure, info.averageTemp)}"
+            app:layout_constraintEnd_toEndOf="@id/average_temp"
+            app:layout_constraintStart_toStartOf="@id/average_temp"
+            app:layout_constraintTop_toBottomOf="@id/average_temp" />
+
+        <TextView
             android:id="@+id/humidity"
-            android:text="@{String.format(@string/humidity, info.humidity)}"/>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/humidity"
-            app:layout_constraintStart_toStartOf="@id/humidity"
-            app:layout_constraintEnd_toEndOf="@id/humidity"
+            android:text="@{String.format(@string/humidity, info.humidity)}"
+            app:layout_constraintEnd_toEndOf="@id/pressure"
+            app:layout_constraintStart_toStartOf="@id/pressure"
+            app:layout_constraintTop_toBottomOf="@id/pressure" />
+
+        <TextView
             android:id="@+id/description"
-            android:text="@{String.format(@string/description, info.description)}"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(@string/description, info.description)}"
+            app:layout_constraintEnd_toEndOf="@id/humidity"
+            app:layout_constraintStart_toStartOf="@id/humidity"
+            app:layout_constraintTop_toBottomOf="@id/humidity" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

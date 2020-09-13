@@ -9,11 +9,11 @@ import com.phucduong.weather.adapter.WeatherAdapter
 import com.phucduong.weather.databinding.SearchFragmentBinding
 import com.phucduong.weather.ui.search.SearchWeatherActivity
 
-class SeachWeatherFragment : Fragment() {
+class SearchWeatherFragment : Fragment() {
     private lateinit var viewBinding: SearchFragmentBinding
 
     companion object {
-        fun newInstance() = SeachWeatherFragment()
+        fun newInstance() = SearchWeatherFragment()
     }
 
     override fun onCreateView(

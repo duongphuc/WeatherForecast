@@ -10,6 +10,10 @@ import com.phucduong.weather.data.Weather
 interface WeatherDao {
     @Query("SELECT * FROM Weather WHERE keyword = :keyword")
     suspend fun getWeatherByKeyWord(keyword: String): List<Weather>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertWeather(listWeather: List<Weather>)
+
+    @Query("DELETE FROM weather")
+    fun clearData()
 }

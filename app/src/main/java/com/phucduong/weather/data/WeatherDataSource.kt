@@ -6,4 +6,5 @@ interface WeatherDataSource {
 
 interface LocalWeatherDataSource : WeatherDataSource {
     suspend fun saveWeatherList(listWeather: List<Weather>)
+    suspend fun clearData()
 }

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.phucduong.weather.viewmodel.SearchWeatherViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,62 +20,67 @@
 
         <EditText
             android:id="@+id/search_keyword_input"
+            onEditorEnterAction="@{viewModel::getWeather}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:text="@={viewModel.searchKeyWord}"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_margin="16dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
+            android:id="@+id/get_weather_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/search_keyword_input"
-            android:layout_margin="16dp"
-            android:text="@string/get_weather"
-            android:id="@+id/get_weather_button"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:enabled="@{viewModel.searchKeyWord.length() > 2 ? true : false}"
             android:onClick="@{() -> viewModel.getWeather()}"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="@string/get_weather"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_keyword_input" />
 
         <ListView
+            android:id="@+id/weather_list_info"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/get_weather_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:id="@+id/weather_list_info"
+            android:visibility="@{viewModel.loading ? View.GONE : View.VISIBLE}"
             app:items="@{viewModel.listWeather}"
-            android:visibility="@{viewModel.loading ? View.GONE : View.VISIBLE}"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/get_weather_button" />
 
         <ProgressBar
+            android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/get_weather_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_margin="16dp"
             android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
-            android:id="@+id/loading"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/get_weather_button" />
 
         <TextView
+            android:id="@+id/errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/get_weather_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_margin="16dp"
             android:text="@{viewModel.errorText}"
             android:visibility="@{viewModel.loading ? View.GONE : View.VISIBLE}"
-            android:id="@+id/errorText"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/get_weather_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
