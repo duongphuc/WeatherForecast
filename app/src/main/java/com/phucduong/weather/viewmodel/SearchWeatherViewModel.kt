@@ -1,16 +1,18 @@
 package com.phucduong.weather.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.arch.core.util.Function
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SearchWeatherViewModel(
+class SearchWeatherViewModel @ViewModelInject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
     // Two-way databinding, exposing MutableLiveData
@@ -21,6 +23,14 @@ class SearchWeatherViewModel(
     private val _listWeatherInfo = MutableLiveData<List<Weather>>().apply { value = emptyList() }
     val listWeather: LiveData<List<Weather>>
         get() = _listWeatherInfo
+
+    //Used below code for observe searchKeyword value change
+    private val mediator = MediatorLiveData<String>().apply {
+        addSource(searchKeyWord) { value ->
+            setValue(value)
+            //getWeatherWithCurrentKeyword()
+        }
+    }.also { it.observeForever() { /* empty */ } }
 
     fun getWeatherWithCurrentKeyword() {
         loading.value = true

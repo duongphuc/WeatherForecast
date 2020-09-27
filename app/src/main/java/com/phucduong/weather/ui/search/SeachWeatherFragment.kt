@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.phucduong.weather.adapter.WeatherAdapter
 import com.phucduong.weather.databinding.SearchFragmentBinding
 import com.phucduong.weather.ui.search.SearchWeatherActivity
+import com.phucduong.weather.viewmodel.SearchWeatherViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchWeatherFragment : Fragment() {
     private lateinit var viewBinding: SearchFragmentBinding
-
+    private val viewModel by viewModels<SearchWeatherViewModel>()
     companion object {
         fun newInstance() = SearchWeatherFragment()
     }
@@ -20,24 +24,19 @@ class SearchWeatherFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding = SearchFragmentBinding.inflate(inflater, container, false).apply {
-            viewModel = (activity as SearchWeatherActivity).obtainViewModel()
-        }
+        viewBinding = SearchFragmentBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewBinding.viewModel = viewModel
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
         setupListAdapter()
     }
 
     private fun setupListAdapter() {
-        val viewModel = viewBinding.viewModel
-        viewModel.let {
-            val weatherAdapter = WeatherAdapter(ArrayList(0))
-            viewBinding.weatherListInfo.adapter = weatherAdapter
-        }
+        val weatherAdapter = WeatherAdapter(ArrayList(0))
+        viewBinding.weatherListInfo.adapter = weatherAdapter
     }
-
 }

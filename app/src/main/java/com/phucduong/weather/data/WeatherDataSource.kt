@@ -4,7 +4,8 @@ interface WeatherDataSource {
     suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>>
 }
 
-interface LocalWeatherDataSource : WeatherDataSource {
+interface LocalWeatherDataSource {
+    suspend fun getWeatherListByKeyword(keyword: String): Result<List<Weather>>
     suspend fun saveWeatherList(listWeather: List<Weather>)
     suspend fun clearData()
 }
