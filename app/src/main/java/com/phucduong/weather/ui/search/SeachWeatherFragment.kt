@@ -5,17 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.phucduong.weather.adapter.WeatherAdapter
 import com.phucduong.weather.databinding.SearchFragmentBinding
-import com.phucduong.weather.ui.search.SearchWeatherActivity
 import com.phucduong.weather.viewmodel.SearchWeatherViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-@AndroidEntryPoint
 class SearchWeatherFragment : Fragment() {
     private lateinit var viewBinding: SearchFragmentBinding
-    private val viewModel by viewModels<SearchWeatherViewModel>()
+    private val viewModel by sharedViewModel<SearchWeatherViewModel>()
     companion object {
         fun newInstance() = SearchWeatherFragment()
     }

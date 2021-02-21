@@ -1,18 +1,17 @@
 package com.phucduong.weather.viewmodel
 
-import androidx.arch.core.util.Function
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.WeatherRepository
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
-class SearchWeatherViewModel @ViewModelInject constructor(
+class SearchWeatherViewModel constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
     // Two-way databinding, exposing MutableLiveData
