@@ -11,8 +11,9 @@ import androidx.fragment.app.FragmentTransaction
 import com.phucduong.weather.data.Weather
 import com.phucduong.weather.data.remote.model.WeatherResponse
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 fun AppCompatActivity.replaceFragment(fragment: Fragment, framId: Int) =
     supportFragmentManager.transact {

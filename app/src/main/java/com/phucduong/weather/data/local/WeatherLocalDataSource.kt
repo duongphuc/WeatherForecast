@@ -1,6 +1,5 @@
 package com.phucduong.weather.data.local
 
-import android.os.HandlerThread
 import com.phucduong.weather.data.LocalWeatherDataSource
 import com.phucduong.weather.data.Result
 import com.phucduong.weather.data.Weather

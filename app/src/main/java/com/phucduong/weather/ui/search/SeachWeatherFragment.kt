@@ -13,6 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class SearchWeatherFragment : Fragment() {
     private lateinit var viewBinding: SearchFragmentBinding
     private val viewModel by sharedViewModel<SearchWeatherViewModel>()
+
     companion object {
         fun newInstance() = SearchWeatherFragment()
     }

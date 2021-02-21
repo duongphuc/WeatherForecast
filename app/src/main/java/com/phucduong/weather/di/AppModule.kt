@@ -68,7 +68,7 @@ fun providesAuthInterceptor() = Interceptor { chain ->
     chain.proceed(newRequest)
 }
 
-fun providesRetrofit(httpClient: OkHttpClient) : Retrofit {
+fun providesRetrofit(httpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
         .client(httpClient)
         .baseUrl(Constant.BASE_URL)
